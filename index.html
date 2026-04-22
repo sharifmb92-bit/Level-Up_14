@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Base Control 14</title>
+    
+    <meta name="theme-color" content="#121212">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Base14">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3233/3233036.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3233/3233036.png">
+
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkJhc2UgQ29udHJvbCAxNCIsCiAgInNob3J0X25hbWUiIjogIkJhc2UxNCIsCiAgInN0YW5kYWxvbmUiLCAKICAidGhlbWVfY29sb3IiOiAiIzEyMTIxMiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzMyMzMvMzIzMzAzNi5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH1bCiAgXQp9">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --oscuro: #121212;
+            --oscuro-panel: #1e1e1e;
+            --cian: #00f2fe;
+            --cian-oscuro: #4facfe;
+            --rojo: #ff4757;
+            --blanco: #ffffff;
+            --blanco-off: #aaaaaa;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; background-color: var(--oscuro); color: var(--blanco);
+            display: flex; justify-content: center; overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .base-container {
+            width: 100%; max-width: 420px; min-height: 100vh;
+            background: var(--oscuro); position: relative;
+            padding-bottom: 120px; box-sizing: border-box;
+        }
+
+        header {
+            padding: 60px 25px 30px; background: var(--oscuro-panel);
+            border-radius: 0 0 30px 30px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,242,254,0.05);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem; margin: 0; font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--cian), var(--rojo));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Sección del Nivel */
+        .level-section {
+            margin: 30px 25px; background: var(--oscuro-panel);
+            border-radius: 20px; padding: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .bar-container {
+            width: 100%; height: 18px; background: rgba(255,255,255,0.05);
+            border-radius: 10px; margin: 15px 0; overflow: hidden;
+            position: relative;
+        }
+
+        #xpBar {
+            height: 100%; width: 0%;
+            background: linear-gradient(to right, var(--cian), var(--cian-oscuro));
+            border-radius: 10px; transition: width 0.5s ease;
+        }
+
+        .total-points {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem; color: var(--cian); font-weight: 700;
+        }
+
+        /* Sección de Misiones */
+        .missions-container { padding: 0 25px; }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem; letter-spacing: 3px;
+            color: var(--blanco-off); margin-bottom: 20px; margin-top: 30px;
+        }
+
+        .mission-card {
+            background: var(--oscuro-panel); border-radius: 15px;
+            padding: 20px; margin-bottom: 15px; display: flex;
+            align-items: center; justify-content: space-between;
+            border: 1px solid transparent; transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .mission-card:active { transform: scale(0.97); }
+
+        .card-done { border: 1px solid var(--cian-oscuro); opacity: 0.5; }
+
+        .mission-card .icon-area { font-size: 2.5rem; margin-right: 20px; }
+
+        .mission-info h3 { font-size: 1.15rem; margin: 0; }
+        .mission-info p { margin: 5px 0 0; color: var(--blanco-off); font-size: 0.85rem; }
+
+        .xp-reward {
+            font-family: 'Orbitron', sans-serif;
+            background: rgba(0,242,254,0.1); color: var(--cian);
+            padding: 8px 12px; border-radius: 10px; font-weight: 700;
+        }
+
+        /* Sección de Canje (Pacto) */
+        .canje-section {
+            margin: 40px 25px; padding: 25px; background: rgba(255, 71, 87, 0.05);
+            border-radius: 20px; border: 1px solid rgba(255, 71, 87, 0.2);
+            text-align: center;
+        }
+
+        #redemptionList h4 { margin-bottom: 15px; color: var(--blanco); font-size: 1rem; }
+
+        /* Barra de Navegación Inferior */
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%; max-width: 420px; height: 90px;
+            background: var(--oscuro-panel); display: flex; justify-content: space-around;
+            align-items: center; border-top: 1px solid rgba(255,255,255,0.05);
+            z-index: 900;
+        }
+
+        .nav-item { font-size: 2.2rem; cursor: pointer; }
+        .active-nav { color: var(--cian); text-shadow: 0 0 10px rgba(0,242,254,0.5); }
+    </style>
+</head>
+<body>
+
+<div class="base-container">
+    <header>
+        <h1>BASE_CTRL.14</h1>
+        <p style="opacity: 0.8; font-size: 0.9rem;">Gestión de Entorno y Recursos</p>
+    </header>
+
+    <div class="level-section">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-family:'Orbitron'; font-weight: 700;">NIVEL_XP</div>
+            <div class="total-points" id="displayPoints">0</div>
+        </div>
+        <div class="bar-container">
+            <div id="xpBar"></div>
+        </div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--blanco-off);">
+            Acumula 1000 XP para una Gran Recompensa
+        </div>
+    </div>
+
+    <div class="missions-container">
+        <div class="section-title">MISIONES_DEL_DÍA</div>
+
+        <div class="mission-card" onclick="checkMission(this, 1)">
+            <div style="display: flex; align-items: center;">
+                <div class="icon-area">🗑️</div>
+                <div class="mission-info">
+                    <h3>Limpieza_Zeta</h3>
+                    <p>Cero envases vacíos en habitación.</p>
+                </div>
+            </div>
+            <div class="xp-reward">+20</div>
+        </div>
+
+        <div class="mission-card" onclick="checkMission(this, 2)">
+            <div style="display: flex; align-items: center;">
+                <div class="icon-area">🎒</div>
+                <div class="mission-info">
+                    <h3>Orden_Equipos</h3>
+                    <p>Mochila y zapatos en su lugar.</p>
+                </div>
+            </div>
+            <div class="xp-reward">+25</div>
+        </div>
+
+        <div class="mission-card" onclick="checkMission(this, 3)">
+            <div style="display: flex; align-items: center;">
+                <div class="icon-area">🧠</div>
+                <div class="mission-info">
+                    <h3>Enfoque_Maestro</h3>
+                    <p>40 min de estudio concentrado.</p>
+                </div>
+            </div>
+            <div class="xp-reward">+40</div>
+        </div>
+
+        <div class="mission-card" style="border: 1px solid rgba(255,255,255,0.02)" onclick="checkMission(this, 4)">
+            <div style="display: flex; align-items: center;">
+                <div class="icon-area">👕</div>
+                <div class="mission-info">
+                    <h3>Orden_Armario</h3>
+                    <p>Todo doblado y organizado.</p>
+                </div>
+            </div>
+            <div class="xp-reward">+100</div>
+        </div>
+    </div>
+
+    <div class="canje-section" id="redemptionList">
+        <div class="section-title" style="color:var(--rojo);">CANJE_RECOMPENSAS</div>
+        <h4>Acuerdos de Base:</h4>
+        <p style="font-size:0.9rem; color:var(--blanco-off);">
+            300 XP = Elegir Cena del Viernes<br>
+            500 XP = 30 min extra de móvil<br>
+            1000 XP = Recompensa Especial (Ver Padre)
+        </p>
+    </div>
+
+    <div class="footer-brand" style="bottom: 100px; display: none;">medbasha</div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active-nav">🛠️</div>
+        <div class="nav-item">🏆</div>
+        <div class="nav-item">⚙️</div>
+    </nav>
+</div>
+
+<script>
+    let totalPoints = 0;
+    const missionStatus = { 1: false, 2: false, 3: false, 4: false };
+
+    // Cargar progreso del almacenamiento local
+    function loadProgress() {
+        totalPoints = parseInt(localStorage.getItem('b14_points')) || 0;
+        const savedStatus = JSON.parse(localStorage.getItem('b14_status'));
+        if (savedStatus) Object.assign(missionStatus, savedStatus);
+        
+        updateUI();
+        syncMissions();
+    }
+
+    function checkMission(card, id) {
+        if (missionStatus[id]) return; // Si ya está hecha, nada.
+
+        const xp = parseInt(card.querySelector('.xp-reward').innerText.replace('+', ''));
+        addXP(xp);
+        
+        missionStatus[id] = true;
+        card.classList.add('card-done');
+        card.querySelector('.xp-reward').innerText = "DONE";
+        
+        // Efecto de vibración y sonido de logro (Solo si el móvil lo permite)
+        if (navigator.vibrate) navigator.vibrate(200);
+
+        saveProgress();
+    }
+
+    function addXP(n) {
+        totalPoints += n;
+        updateUI();
+    }
+
+    function updateUI() {
+        document.getElementById('displayPoints').innerText = totalPoints;
+        const barXP = Math.min((totalPoints % 1000) / 10, 100);
+        document.getElementById('xpBar').style.width = barXP + '%';
+    }
+
+    // Asegurarse de que las misiones hechas se vean hechas al recargar
+    function syncMissions() {
+        const cards = document.querySelectorAll('.mission-card');
+        cards.forEach((card, index) => {
+            const id = index + 1;
+            if (missionStatus[id]) {
+                card.classList.add('card-done');
+                card.querySelector('.xp-reward').innerText = "DONE";
+            }
+        });
+    }
+
+    function saveProgress() {
+        localStorage.setItem('b14_points', totalPoints);
+        localStorage.setItem('b14_status', JSON.stringify(missionStatus));
+    }
+
+    loadProgress();
+</script>
+</body>
+</html>
